@@ -1,0 +1,46 @@
+schema_version: 1
+
+context:
+  name: aiosasl
+  version: "0.5.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/aiosasl-${{ version }}.tar.gz
+  sha256: d927a8f9d855c4c00dea9d88fb86ea0d09dd4e7642b2109d2bd93be2f4c17b4e
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - aiosasl
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Pure-python, protocol agnostic SASL library for asyncio
+  license: LGPL-3.0-only
+  license_file:
+    - LICENSES
+  homepage: https://github.com/horazont/aiosasl
+
+extra:
+  recipe-maintainers:
+    - akrherz
